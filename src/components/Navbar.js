@@ -21,7 +21,7 @@ const Navbar = () => {
         scroll ? "bg-grey shadow-lg" : ""
       } fixed top-0 left-0 w-full z-20`}
     >
-      <div className="lg:w-[70%] md:w-[75%] flex items-center justify-between relative container py-4 px-2 mx-auto">
+      <div className="lg:w-[70%] md:w-[75%] flex items-center justify-between relative container py-4 px-2 md:px-4 mx-auto px-4">
         <Link to="/">
           <div className="font-bold text-xl">RKT</div>
         </Link>
