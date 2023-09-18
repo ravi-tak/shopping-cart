@@ -3,6 +3,7 @@ import { BrowserRouter as Routers, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.js";
 import ShoppingContainer from "./components/ShoppingContainer";
 import ItemDetails from "./components/ItemDetails";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
           <Route
             path="/item-details/:id"
             element={<ItemDetails />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
           />
         </Route>
       </Routes>
