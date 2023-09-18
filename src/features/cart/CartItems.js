@@ -48,7 +48,7 @@ const CartItems = ({ cartItem }) => {
           className="cursor-pointer text-xl"
           onClick={() => dispatch(deleteCartAsync(id))}
         />
-        <div className="font-bold">${(price * 1).toFixed(2)}</div>
+        <div className="font-bold">${(price * 1).toFixed(2)}/per</div>
       </div>
     </div>
   );
