@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 const CartItems = ({ cartItem }) => {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
-  const numOfItems = cartItems.length;
   const { id, price, title, images, quantity } = cartItem;
 
   return (

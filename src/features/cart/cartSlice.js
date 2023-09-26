@@ -7,9 +7,11 @@ import {
   updateDecrementCartItem,
 } from "./cartAPI";
 
+const total = localStorage.getItem("total");
+
 const initialState = {
   cartItems: [],
-  total: 0,
+  total: total ? parseInt(total) : 0,
   loading: false,
   error: null,
   isOpen: false,
@@ -84,6 +86,10 @@ export const cartSlice = createSlice({
         const item = action.payload;
         state.cartItems.push(item);
         state.total += item.price * item.quantity;
+        const total = localStorage.getItem("total")
+          ? parseInt(localStorage.getItem("total")) + item.price * item.quantity
+          : item.price * item.quantity;
+        localStorage.setItem("total", total);
       })
       .addCase(addCartAsync.rejected, (state, action) => {
         state.loading = false;
@@ -100,6 +106,11 @@ export const cartSlice = createSlice({
         );
         const item = state.cartItems[index];
         state.total -= item.price * item.quantity;
+        const total =
+          localStorage.getItem("total") - item.price * item.quantity;
+        total === 0
+          ? localStorage.removeItem("total")
+          : localStorage.setItem("total", total);
         state.cartItems.splice(index, 1);
       })
       .addCase(deleteCartAsync.rejected, (state, action) => {
@@ -114,6 +125,8 @@ export const cartSlice = createSlice({
         );
         const item = action.payload;
         state.total += item.price;
+        const total = parseInt(localStorage.getItem("total")) + item.price;
+        localStorage.setItem("total", total);
         state.cartItems.splice(index, 1, action.payload);
       })
       // dcrement
@@ -125,6 +138,8 @@ export const cartSlice = createSlice({
           );
           const item = state.cartItems[index];
           state.total -= item.price;
+          const total = localStorage.getItem("total") - item.price;
+          localStorage.setItem("total", total);
           state.cartItems.splice(index, 1, action.payload);
         }
       });
