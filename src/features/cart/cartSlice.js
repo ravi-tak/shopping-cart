@@ -7,11 +7,9 @@ import {
   updateDecrementCartItem,
 } from "./cartAPI";
 
-const total = localStorage.getItem("total");
-
 const initialState = {
   cartItems: [],
-  total: total ? parseInt(total) : 0,
+  total: 0,
   loading: false,
   error: null,
   isOpen: false,
@@ -72,6 +70,10 @@ export const cartSlice = createSlice({
       .addCase(getCartAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.cartItems = action.payload;
+        let total = 0;
+        action.payload.forEach((item) => (total += item.price * item.quantity));
+        localStorage.setItem("total", total);
+        state.total = total;
       })
       .addCase(getCartAsync.rejected, (state, action) => {
         state.loading = false;
@@ -85,11 +87,11 @@ export const cartSlice = createSlice({
         state.loading = false;
         const item = action.payload;
         state.cartItems.push(item);
-        state.total += item.price * item.quantity;
         const total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total")) + item.price * item.quantity
           : item.price * item.quantity;
         localStorage.setItem("total", total);
+        state.total = total;
       })
       .addCase(addCartAsync.rejected, (state, action) => {
         state.loading = false;
@@ -105,12 +107,12 @@ export const cartSlice = createSlice({
           (item) => item.id === action.payload
         );
         const item = state.cartItems[index];
-        state.total -= item.price * item.quantity;
         const total =
           localStorage.getItem("total") - item.price * item.quantity;
         total === 0
           ? localStorage.removeItem("total")
           : localStorage.setItem("total", total);
+        state.total = total;
         state.cartItems.splice(index, 1);
       })
       .addCase(deleteCartAsync.rejected, (state, action) => {
@@ -124,10 +126,10 @@ export const cartSlice = createSlice({
           (item) => item.id === action.payload.id
         );
         const item = action.payload;
-        state.total += item.price;
         const total = parseInt(localStorage.getItem("total")) + item.price;
         localStorage.setItem("total", total);
         state.cartItems.splice(index, 1, action.payload);
+        state.total = total;
       })
       // dcrement
       .addCase(decrementCartAsync.fulfilled, (state, action) => {
@@ -137,9 +139,9 @@ export const cartSlice = createSlice({
             (item) => item.id === action.payload.id
           );
           const item = state.cartItems[index];
-          state.total -= item.price;
           const total = localStorage.getItem("total") - item.price;
           localStorage.setItem("total", total);
+          state.total = total;
           state.cartItems.splice(index, 1, action.payload);
         }
       });
