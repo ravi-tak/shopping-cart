@@ -17,14 +17,14 @@ const ShoppingItem = ({ item }) => {
           />
         </div>
       </Link>
-      <div className="mt-6 flex justify-between items-center px-4">
+      <div className="mt-6 flex justify-between items-center px-4 gap-x-5">
         <div>
           <div className="text-sm font-bold mb-3">{title}</div>
           <div className="text-xl font-bold">${price}</div>
         </div>
         <button
-          className="bg-grey p-3 font-bold"
-          onClick={() => dispatch(addCartAsync({ ...item, quantity: 1  }))}
+          className="bg-grey p-3 font-bold min-w-[45%]"
+          onClick={() => dispatch(addCartAsync({ ...item, quantity: 1 }))}
         >
           Add To Cart
         </button>
