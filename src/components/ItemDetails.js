@@ -15,7 +15,7 @@ const ItemDetails = () => {
   }, []);
   const firstImageSrc = item && item.images && item.images[0];
 
-  if (id > '30') {
+  if (id > 30) {
     return <NotFound />;
   } else {
     return loading ? (
